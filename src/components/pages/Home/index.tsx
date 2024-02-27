@@ -1,11 +1,17 @@
-import React from 'react'
+'use client';
+import React, { useState } from 'react'
 import Image from 'next/image'
 import Sidebar from '@/components/elements/Sidebar'
 import images from '@/configs/images'
 import Education from './component'
 import Modal from '@/components/elements/Modal'
+import EducationForm from '@/components/elements/Forms/EducationForm';
 
 export default function Home() {
+  const [isModal, setModal] = useState(false);
+  const handleSubmit:any = (values:any) => {
+    console.log(values);
+  };
   return (
     <>
       <Sidebar />
@@ -15,7 +21,7 @@ export default function Home() {
                 <div className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
                     <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Welcome to Raihan's education page.</h2>
                     <p className="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque alias officia eum facilis doloribus architecto ipsum voluptatem dolorem temporibus! Eligendi ipsa velit porro ratione? Dolores quam voluptatibus id nihil vero?</p>
-                    <button type="button" className="text-white bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 shadow-lg shadow-indigo-500/50 dark:shadow-lg dark:shadow-indigo-800/80 font-medium rounded-lg text-sm px-10 py-4 text-center me-2 mb-2">Add New Education</button>
+                    <button onClick={() => setModal(true)} type="button" className="text-white bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 shadow-lg shadow-indigo-500/50 dark:shadow-lg dark:shadow-indigo-800/80 font-medium rounded-lg text-sm px-10 py-4 text-center me-2 mb-2">Add New Education</button>
                 </div>
                 <div className="grid grid-cols-2 gap-4 mt-8">
                     <Image className="w-full rounded-lg bg-red-50" src={images.success} alt="success-illustration" priority={true} width={200} height={200} />
@@ -25,7 +31,17 @@ export default function Home() {
         </section>
         <div className="h-8"></div>
         <Education />
-        <Modal />
+        <Modal
+          isOpen={isModal}
+          title="New Education Modal"
+          txtSubmit="Save"
+          txtCancel="Cancel"
+          onSubmit={() => alert('submit')}
+          onCancel={() => setModal(!isModal)}
+          onClose={() => setModal(!isModal)}
+        >
+          <EducationForm onCancel={():any => setModal(!isModal)} onSubmit={handleSubmit} />
+        </Modal>
       </div>
     </>
   )
