@@ -18,6 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <meta httpEquiv="Content-Security-Policy" content="block-all-mixed-content" />
       <body className={inter.className}>
         <main className="flex min-h-screen flex-col items-center justify-between bg-slate-300 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black">
           <Providers>{children}</Providers>
