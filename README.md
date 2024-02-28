@@ -37,7 +37,8 @@ Some references that help this project
 ## Demo
 
 [Click Me](https://my-edu-nine.vercel.app/)
-[Alternative version](https://my-edu-git-alternative-raihan71.vercel.app/)
+|
+[Alternative version](https://my-edu-git-alternative-raihan71.vercel.app?_vercel_share=bx3hxjSjKdNl1Pr69Ywx7JtpFP2KKLI7)
 
 
 ## Run Locally
