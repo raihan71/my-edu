@@ -9,9 +9,7 @@ const SelectCustom = (props: {
   isLoading: boolean
 }) => {
   const handleOnSearch = (searchTerm: string) => {
-    if (searchTerm) {
       handleSearch(searchTerm);
-    }
   };
 
   const { value, handleChange, handleSearch, options, isLoading } = props;

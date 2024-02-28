@@ -91,7 +91,7 @@ export default function Home() {
     } catch (error) {
       throw error;
     } finally {
-      setLoadingUniverity(false);
+      setLoadingUniverity(true);
     }
     refetch();
   }, [setSearchUni, refetch]);
