@@ -2,7 +2,7 @@ import axios from 'axios';
 import { serviceURI } from '@/configs/service';
 
 const educationService = axios.create({
-  baseURL: process.env.SERVICE_URL || 'http://localhost:8080'
+  baseURL: process.env.SERVICE_URL ?? 'https://my-edu-be.vercel.app/educations'
 });
 
 export const getEducations = async () => {

@@ -2,20 +2,43 @@ import React, { useState } from 'react';
 import { useFormik } from "formik";
 import { validate } from './validate';
 import Datepicker from '../../Datepicker';
+import Selectpicker from '../../Select';
 
-const EducationForm = ({ onSubmit, onCancel }: { onSubmit: (value:any) => Promise<void>, onCancel: () => Promise<void>}) => {
+const EducationForm = ({ onSubmit, onCancel, onSearchOption, universities }:
+  { onSubmit: (value:any) => Promise<void>, onCancel: () => void,
+    onSearchOption: (value:any) => Promise<void>, universities: any[]
+  }) => {
   const [showDateStart, setShowDateStart] = useState(false);
   const [showDateEnd, setShowDateEnd] = useState(false);
   const [startYear, setStartYear] = useState<String | null>(null);
   const [endYear, setEndYear] = useState<String | null>(null);
+  const [university, setUniversity] = useState(null);
 
   const formik:any = useFormik({
-    initialValues: {},
+    initialValues: {
+      schoolName: '',
+      grade: '',
+      degree: '',
+      startYear: '',
+      endYear: '',
+      description: '',
+      fieldStudy: ''
+    },
     validationSchema: validate,
     onSubmit: async (values) => {
       await onSubmit(values);
     },
   });
+
+  const handleChangeAnimal = (value:any) => {
+      console.log("value:", value?.value);
+      setUniversity(value);
+      formik.setFieldValue('schoolName', value?.value);
+  };
+
+  const handleOnSearch = (value:any) => {
+    onSearchOption(value);
+  };
 
   const handleClearInputs = () => {
     formik.resetForm({
@@ -30,6 +53,7 @@ const EducationForm = ({ onSubmit, onCancel }: { onSubmit: (value:any) => Promis
       }
     });
     onCancel();
+    setUniversity(null);
   };
 
   const handleStartYear = {
@@ -64,13 +88,19 @@ const EducationForm = ({ onSubmit, onCancel }: { onSubmit: (value:any) => Promis
       <div className="mb-5">
         <label htmlFor="schoolName" className="block text-sm font-medium leading-6 text-white">School Name</label>
         <div className="mt-1">
-          <input
+          {/* <input
             placeholder="School Name"
             type="text"
             id="schoolName"
             className="px-3 py-2 border border-gray-300 w-full rounded-lg"
             name="schoolName"
             {...formik.getFieldProps('schoolName')}
+          /> */}
+          <Selectpicker
+            value={university}
+            options={universities}
+            handleChange={handleChangeAnimal}
+            handleSearch={handleOnSearch}
           />
           {formik.errors?.schoolName && formik.touched?.schoolName && formik.submitCount > 0 ? (
             <div className="mt-1 text-red-600">{formik.errors?.schoolName}</div>

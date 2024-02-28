@@ -1,17 +1,47 @@
 'use client';
-import React, { useState } from 'react'
-import Image from 'next/image'
-import Sidebar from '@/components/elements/Sidebar'
-import images from '@/configs/images'
-import Education from './component'
-import Modal from '@/components/elements/Modal'
+import React, { useCallback, useState } from 'react';
+import { useQuery } from 'react-query';
+import Image from 'next/image';
+import Sidebar from '@/components/elements/Sidebar';
+import images from '@/configs/images';
+import Education from './component';
+import Modal from '@/components/elements/Modal';
 import EducationForm from '@/components/elements/Forms/EducationForm';
+import { getUniversities } from '@/services/university';
 
 export default function Home() {
   const [isModal, setModal] = useState(false);
+  const [searchUni, setSearchUni] = useState('');
+  const [mappedUniversities, setMappedUniversities] = useState([]);
+
+  const {
+    data: universities,
+    refetch
+  } = useQuery(['universities', searchUni], () => getUniversities(searchUni), {
+    onSuccess: (data) => {
+      const mappedData = data.map((uni:any) => ({ value: uni.name, label: uni.name }));
+      setMappedUniversities(mappedData);
+    },
+    enabled: false
+  });
+
+  const onSearchUniversity = useCallback(async (value: any) => {
+    try {
+      await setSearchUni(value);
+    } catch (error) {
+      throw error;
+    }
+    refetch();
+  }, [setSearchUni, refetch]);
+
   const handleSubmit:any = (values:any) => {
     console.log(values);
   };
+
+  const onCancel = () => {
+    setModal(isModal => !isModal);
+  };
+
   return (
     <>
       <Sidebar />
@@ -40,7 +70,12 @@ export default function Home() {
           onCancel={() => setModal(!isModal)}
           onClose={() => setModal(!isModal)}
         >
-          <EducationForm onCancel={():any => setModal(!isModal)} onSubmit={handleSubmit} />
+          <EducationForm
+            universities={mappedUniversities}
+            onSearchOption={onSearchUniversity}
+            onCancel={onCancel}
+            onSubmit={handleSubmit}
+          />
         </Modal>
       </div>
     </>
