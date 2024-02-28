@@ -1,5 +1,5 @@
 'use client';
-import React from 'react'
+import React from 'react';
 
 const Modal = (props: {
     children: React.ReactNode,
@@ -16,7 +16,7 @@ const Modal = (props: {
         <div id="default-modal" tabIndex={-1} aria-hidden={isOpen}
             className={`fixed inset-0 overflow-hidden z-50 ${isOpen ? 'flex bg-black bg-opacity-50' : 'hidden'} items-center justify-center`}
         >
-            <div className={`${isOpen ? 'relative' : 'hidden'} p-4 w-full max-w-2xl max-h-full overflow-y-auto`}>
+            <div className={`${isOpen ? 'relative' : 'hidden'} p-1 md:p-4 w-full max-w-2xl max-h-full overflow-y-auto`}>
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">

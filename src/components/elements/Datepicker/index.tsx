@@ -1,5 +1,5 @@
-import React from 'react'
-import Datepicker from "tailwind-datepicker-react"
+import React from 'react';
+import Datepicker from 'tailwind-datepicker-react';
 
 const CustomDatePicker = (props: {
   children: React.ReactNode,

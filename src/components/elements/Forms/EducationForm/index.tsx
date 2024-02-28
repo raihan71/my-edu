@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { useFormik } from "formik";
+import { useFormik } from 'formik';
 import { validate } from './validate';
 import Datepicker from '../../Datepicker';
 import Selectpicker from '../../Select';
 
-const EducationForm = ({ onSubmit, onCancel, onSearchOption, universities }:
+const EducationForm = ({  isLoadUniveristy, onSubmit, onCancel, onSearchOption, universities }:
   { onSubmit: (value:any) => Promise<void>, onCancel: () => void,
-    onSearchOption: (value:any) => Promise<void>, universities: any[]
+    onSearchOption: (value:any) => Promise<void>, universities: any[], isLoadUniveristy: boolean
   }) => {
   const [showDateStart, setShowDateStart] = useState(false);
   const [showDateEnd, setShowDateEnd] = useState(false);
   const [startYear, setStartYear] = useState<String | null>(null);
   const [endYear, setEndYear] = useState<String | null>(null);
   const [university, setUniversity] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const sleep = (ms:any) => new Promise((r) => setTimeout(r, ms));
 
   const formik:any = useFormik({
     initialValues: {
@@ -26,12 +29,19 @@ const EducationForm = ({ onSubmit, onCancel, onSearchOption, universities }:
     },
     validationSchema: validate,
     onSubmit: async (values) => {
-      await onSubmit(values);
+      try {
+        setSubmitting(true);
+        await Promise.all([onSubmit(values), sleep(200)]);
+      } catch (error) {
+        throw error;
+      } finally {
+        handleClearInputs();
+        setSubmitting(false);
+      }
     },
   });
 
-  const handleChangeAnimal = (value:any) => {
-      console.log("value:", value?.value);
+  const handleChangeUni = (value:any) => {
       setUniversity(value);
       formik.setFieldValue('schoolName', value?.value);
   };
@@ -88,18 +98,11 @@ const EducationForm = ({ onSubmit, onCancel, onSearchOption, universities }:
       <div className="mb-5">
         <label htmlFor="schoolName" className="block text-sm font-medium leading-6 text-white">School Name</label>
         <div className="mt-1">
-          {/* <input
-            placeholder="School Name"
-            type="text"
-            id="schoolName"
-            className="px-3 py-2 border border-gray-300 w-full rounded-lg"
-            name="schoolName"
-            {...formik.getFieldProps('schoolName')}
-          /> */}
           <Selectpicker
+            isLoading={isLoadUniveristy}
             value={university}
             options={universities}
-            handleChange={handleChangeAnimal}
+            handleChange={handleChangeUni}
             handleSearch={handleOnSearch}
           />
           {formik.errors?.schoolName && formik.touched?.schoolName && formik.submitCount > 0 ? (
@@ -237,9 +240,9 @@ const EducationForm = ({ onSubmit, onCancel, onSearchOption, universities }:
         <button
           className="rounded-lg w-full px-4 py-2 bg-indigo-600 text-white disabled:bg-opacity-65"
           type="submit"
-          disabled={formik.isSubmitting}
+          disabled={submitting}
         >
-          {formik.isSubmitting ? 'Loading' : 'Submit'}
+          {submitting ? 'Loading' : 'Submit'}
         </button>
       </div>
     </div>

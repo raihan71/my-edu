@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "@/styles/globals.css";
-import Providers from "@/utils/provider";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import '@/styles/globals.css';
+import Providers from '@/utils/provider';
+import Footer from '@/components/elements/Footer';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +17,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <main className="flex min-h-screen flex-col items-center justify-between bg-gradient-to-br from-gray-900 to-black">
+        <main className="flex min-h-screen flex-col items-center justify-between bg-slate-300 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black">
           <Providers>{children}</Providers>
+          <Footer />
         </main>
       </body>
     </html>

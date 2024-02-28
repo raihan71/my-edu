@@ -1,19 +1,20 @@
-import React, { useCallback } from 'react'
-import Select from "react-tailwindcss-select";
+import React from 'react';
+import Select from 'react-tailwindcss-select';
 
 const SelectCustom = (props: {
   value: any,
   handleChange: any,
   handleSearch: any,
-  options: any
+  options: any,
+  isLoading: boolean
 }) => {
-  const handleOnSearch = useCallback((searchTerm: string) => {
+  const handleOnSearch = (searchTerm: string) => {
     if (searchTerm) {
       handleSearch(searchTerm);
     }
-  }, []);
+  };
 
-  const { value, handleChange, handleSearch, options } = props;
+  const { value, handleChange, handleSearch, options, isLoading } = props;
   return (
     <Select
       value={value}
@@ -22,7 +23,7 @@ const SelectCustom = (props: {
       primaryColor="indigo"
       isSearchable
       onSearchInputChange={e => handleOnSearch(e.target.value)}
-      loading={true}
+      loading={isLoading}
     />
   )
 }
