@@ -8,7 +8,7 @@ import { removeAuthName } from '@/utils/auth';
 const Sidebar = () => {
   const router = useRouter();
   const currentRoute = usePathname();
-  const [hideBar, setHideBar] = useState(true);
+  const [hideBar, setHideBar] = useState(false);
 
   const handleExit = () => {
     removeAuthName();
@@ -27,7 +27,7 @@ const Sidebar = () => {
         <i className="bi bi-filter-left px-2 bg-gray-900 rounded-md"></i>
       </button>
       <aside
-        className={`${hideBar ? 'hidden' : 'md:block'}sidebar relative md:fixed top-0 bottom-0 lg:left-0 p-2 w-full md:w-[300px] overflow-y-auto text-center bg-gray-900`}
+        className={`${hideBar ? 'hidden ' : 'md:relative'}sidebar fixed inset-0 overflow-hidden z-50 top-0 bottom-0 lg:left-0 p-2 w-full md:w-[300px] overflow-y-auto text-center bg-gray-900`}
       >
         <div className="text-gray-100 text-xl">
           <div className="p-2.5 mt-1 flex items-center">
