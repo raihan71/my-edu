@@ -21,6 +21,11 @@ export default function Welcome() {
     useEffect(() => {
         setMounted(true);
         checkGuard();
+
+        return () => {
+            setMounted(false);
+            checkGuard();
+        }
     }, []);
 
     const handleSubmit:any = (values:any) => {
