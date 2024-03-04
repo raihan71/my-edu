@@ -30,6 +30,10 @@ export default function Home() {
 
   useEffect(() => {
     setAuthName(getAuthName());
+
+    return () => {
+      setAuthName('');
+    }
   }, [auth]);
 
   const {
